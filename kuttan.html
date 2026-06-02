@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday Our Queen 👑</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600;700;900&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Infant:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&family=Great+Vibes&family=Tenor+Sans&family=Cinzel:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@twemoji/api@latest/dist/twemoji.min.js" crossorigin="anonymous"></script>
 <style>
 :root {
   --gold: #D4AF37;
@@ -25,11 +27,18 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; font-size: 16px; }
 body {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Infant', serif;
   background: var(--black);
   color: var(--white);
   overflow-x: hidden;
   cursor: default;
+}
+img.emoji {
+  height: 1.15em; width: 1.15em;
+  margin: 0 .07em 0 .1em;
+  vertical-align: -0.15em;
+  display: inline;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .hidden { display: none !important; }
@@ -37,9 +46,9 @@ body {
 
 .stars-bg {
   position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background: radial-gradient(ellipse at 20% 30%, #1a0630 0%, transparent 50%),
-              radial-gradient(ellipse at 80% 70%, #0d0520 0%, transparent 50%),
-              var(--black);
+  background: radial-gradient(ellipse at 20% 30%, #0a1628 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 70%, #120b20 0%, transparent 50%),
+              #05080f;
 }
 .stars-bg::before, .stars-bg::after {
   content: '';
@@ -101,7 +110,7 @@ body {
   text-align: center;
 }
 
-#welcome { background: radial-gradient(ellipse at 50% 0%, #2a0850 0%, #0A0A0F 70%); }
+#welcome { background: radial-gradient(ellipse at 50% 0%, #0f1b3d 0%, #060a14 70%); }
 
 .hero-ornament {
   font-size: clamp(3rem, 8vw, 6rem);
@@ -115,25 +124,25 @@ body {
 }
 
 .hero-title {
-  font-family: 'Cinzel', serif;
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
   font-size: clamp(2rem, 6vw, 4.5rem);
   font-weight: 900;
-  letter-spacing: 0.02em;
-  line-height: 1.1;
-  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 40%, #fff8dc 60%, var(--gold-light) 100%);
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  background: linear-gradient(135deg, #fceabb 0%, var(--gold) 40%, #fff8dc 55%, var(--gold-light) 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 0.8rem;
   animation: fadeSlideUp 1s ease-out 0.3s both;
+  text-shadow: none;
 }
 
 .hero-sub {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.1rem, 3vw, 1.6rem);
-  font-style: italic;
-  font-weight: 300;
-  color: rgba(255,248,220,0.85);
-  letter-spacing: 0.05em;
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+  font-weight: 400;
+  color: rgba(255,248,220,0.9);
+  letter-spacing: 0.03em;
   animation: fadeSlideUp 1s ease-out 0.6s both;
 }
 
@@ -191,7 +200,7 @@ body {
   100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
 }
 
-#loading-section { background: radial-gradient(ellipse at 30% 50%, #1a0840 0%, var(--black) 70%); }
+#loading-section { background: radial-gradient(ellipse at 30% 50%, #0d1a2f 0%, #060a14 70%); }
 
 .loading-orb {
   width: clamp(80px, 15vw, 120px);
@@ -223,7 +232,7 @@ body {
 @keyframes orbSpin { 100% { transform: rotate(360deg); } }
 
 .typewriter-display {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Infant', serif;
   font-size: clamp(1.4rem, 4vw, 2.2rem);
   font-style: italic;
   color: var(--gold-light);
@@ -256,7 +265,7 @@ body {
   transition: width 0.3s ease;
 }
 
-#quiz-section { background: radial-gradient(ellipse at 70% 30%, #1f0650 0%, var(--black) 65%); }
+#quiz-section { background: radial-gradient(ellipse at 70% 30%, #10162d 0%, #060a14 65%); }
 
 .section-label {
   font-family: 'Cinzel', serif;
@@ -279,7 +288,7 @@ body {
 }
 
 .quiz-question {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Infant', serif;
   font-size: clamp(1.3rem, 3.5vw, 2rem);
   font-style: italic;
   color: rgba(255,248,220,0.9);
@@ -333,7 +342,7 @@ body {
 
 .quiz-result {
   margin-top: 1.5rem;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Infant', serif;
   font-size: clamp(1.2rem, 3vw, 1.8rem);
   font-style: italic;
   color: var(--gold-light);
@@ -342,7 +351,7 @@ body {
 }
 .quiz-result.show { opacity: 1; }
 
-#reasons-section { background: radial-gradient(ellipse at 50% 80%, #200860 0%, var(--black) 65%); }
+#reasons-section { background: radial-gradient(ellipse at 50% 80%, #0e1e38 0%, #060a14 65%); }
 
 .reasons-grid {
   display: grid;
@@ -385,14 +394,14 @@ body {
   letter-spacing: 0.05em;
 }
 .reason-text {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Infant', serif;
   font-size: clamp(0.95rem, 2.2vw, 1.1rem);
   font-weight: 300;
   color: rgba(255,248,220,0.7);
   line-height: 1.6;
 }
 
-#gifts-section { background: radial-gradient(ellipse at 20% 60%, #150535 0%, var(--black) 65%); }
+#gifts-section { background: radial-gradient(ellipse at 20% 60%, #0b1628 0%, #060a14 65%); }
 
 .gifts-grid {
   display: grid;
@@ -455,14 +464,14 @@ body {
 .gift-box.opened > *:not(.gift-revealed) { opacity: 0; }
 .gift-msg-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
 .gift-msg-text {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Infant', serif;
   font-size: clamp(0.85rem, 2vw, 1rem);
   font-style: italic;
   color: var(--gold-light);
   line-height: 1.5;
 }
 
-#letter-section { background: radial-gradient(ellipse at 80% 40%, #1a0840 0%, var(--black) 65%); }
+#letter-section { background: radial-gradient(ellipse at 80% 40%, #0d1a30 0%, #060a14 65%); }
 
 .envelope-wrap {
   cursor: pointer;
@@ -511,7 +520,7 @@ body {
 }
 .envelope-line { height: 2px; border-radius: 1px; background: rgba(212,175,55,0.2); }
 .envelope-cta {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Infant', serif;
   font-size: clamp(0.9rem, 2.5vw, 1.1rem);
   font-style: italic;
   color: rgba(212,175,55,0.7);
@@ -572,7 +581,7 @@ body {
   margin-bottom: 1.5rem;
 }
 .letter-body {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Infant', serif;
   font-size: clamp(1rem, 2.5vw, 1.2rem);
   font-weight: 300;
   color: rgba(255,248,220,0.85);
@@ -589,7 +598,7 @@ body {
   margin-top: 2rem;
 }
 
-#crown-section { background: radial-gradient(ellipse at 50% 50%, #200860 0%, var(--black) 70%); }
+#crown-section { background: radial-gradient(ellipse at 50% 50%, #0f1d3a 0%, #060a14 70%); }
 
 .crown-display {
   font-size: clamp(5rem, 15vw, 10rem);
@@ -668,7 +677,7 @@ body {
   100% { opacity: 0; transform: translateY(-150px) scale(0.3) rotate(360deg); }
 }
 
-#finale-section { background: radial-gradient(ellipse at 50% 30%, #2d0a70 0%, #0A0A0F 70%); position: relative; }
+#finale-section { background: radial-gradient(ellipse at 50% 30%, #111f40 0%, #060a14 70%); position: relative; }
 
 .finale-msg {
   font-family: 'Cinzel', serif;
@@ -683,7 +692,7 @@ body {
 }
 
 .finale-sub {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Infant', serif;
   font-size: clamp(1rem, 2.8vw, 1.4rem);
   font-weight: 300;
   font-style: italic;
@@ -739,24 +748,53 @@ body {
   100% { bottom: 110vh; opacity: 0; }
 }
 
-.nav-dots {
-  position: fixed; right: 1.2rem; top: 50%;
+.nav-sidebar {
+  position: fixed; right: 0; top: 50%;
   transform: translateY(-50%);
-  display: flex; flex-direction: column; gap: 0.6rem;
+  display: flex; flex-direction: column; gap: 0;
   z-index: 100;
 }
-.nav-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: rgba(212,175,55,0.3);
-  border: 1px solid rgba(212,175,55,0.5);
-  cursor: pointer;
-  transition: all 0.3s;
+.nav-item {
+  display: flex; align-items: center; justify-content: flex-end;
+  cursor: pointer; padding: 0.55rem 0.8rem;
+  transition: all 0.35s ease;
+  position: relative;
 }
-.nav-dot.active {
+.nav-item-indicator {
+  width: 3px; height: 20px;
+  background: rgba(212,175,55,0.2);
+  border-radius: 2px;
+  transition: all 0.35s ease;
+  flex-shrink: 0;
+}
+.nav-item-label {
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.35);
+  white-space: nowrap;
+  margin-right: 0.6rem;
+  opacity: 0; transform: translateX(8px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+.nav-item:hover .nav-item-label {
+  opacity: 1; transform: translateX(0);
+  color: var(--gold-light);
+}
+.nav-item:hover .nav-item-indicator {
+  background: rgba(212,175,55,0.6);
+  height: 26px;
+}
+.nav-item.active .nav-item-indicator {
   background: var(--gold);
-  transform: scale(1.4);
-  box-shadow: 0 0 8px rgba(212,175,55,0.8);
+  height: 28px; width: 4px;
+  box-shadow: 0 0 12px rgba(212,175,55,0.7);
+}
+.nav-item.active .nav-item-label {
+  opacity: 0.7; transform: translateX(0);
+  color: var(--gold);
 }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -773,7 +811,9 @@ body {
 ::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.4); border-radius: 2px; }
 
 @media (max-width: 480px) {
-  .nav-dots { right: 0.6rem; }
+  .nav-sidebar { right: 0; }
+  .nav-item { padding: 0.4rem 0.5rem; }
+  .nav-item-label { display: none; }
   .gifts-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
   .reasons-grid { grid-template-columns: 1fr; }
 }
@@ -783,15 +823,15 @@ body {
 
 <div class="stars-bg"></div>
 
-<nav class="nav-dots" id="navDots">
-  <div class="nav-dot active" data-section="0"></div>
-  <div class="nav-dot" data-section="1"></div>
-  <div class="nav-dot" data-section="2"></div>
-  <div class="nav-dot" data-section="3"></div>
-  <div class="nav-dot" data-section="4"></div>
-  <div class="nav-dot" data-section="5"></div>
-  <div class="nav-dot" data-section="6"></div>
-  <div class="nav-dot" data-section="7"></div>
+<nav class="nav-sidebar" id="navSidebar">
+  <div class="nav-item active" data-section="0"><span class="nav-item-label">Welcome</span><div class="nav-item-indicator"></div></div>
+  <div class="nav-item" data-section="1"><span class="nav-item-label">Loading</span><div class="nav-item-indicator"></div></div>
+  <div class="nav-item" data-section="2"><span class="nav-item-label">Trivia</span><div class="nav-item-indicator"></div></div>
+  <div class="nav-item" data-section="3"><span class="nav-item-label">Reasons</span><div class="nav-item-indicator"></div></div>
+  <div class="nav-item" data-section="4"><span class="nav-item-label">Gifts</span><div class="nav-item-indicator"></div></div>
+  <div class="nav-item" data-section="5"><span class="nav-item-label">Letter</span><div class="nav-item-indicator"></div></div>
+  <div class="nav-item" data-section="6"><span class="nav-item-label">Crown</span><div class="nav-item-indicator"></div></div>
+  <div class="nav-item" data-section="7"><span class="nav-item-label">Finale</span><div class="nav-item-indicator"></div></div>
 </nav>
 
 <!-- SECTION 1: WELCOME -->
@@ -887,7 +927,7 @@ body {
     <p class="section-label reveal">Surprise Awaits</p>
     <h2 class="section-title reveal">Tap a Gift for You 🎁</h2>
     <div class="gold-divider reveal"></div>
-    <p class="reveal" style="font-family:'Cormorant Garamond',serif;font-style:italic;color:rgba(255,248,220,0.6);font-size:clamp(0.9rem,2.2vw,1.1rem);margin-bottom:0.5rem">Each box holds something special...</p>
+    <p class="reveal" style="font-family:'Cormorant Infant',serif;font-style:italic;color:rgba(255,248,220,0.6);font-size:clamp(0.9rem,2.2vw,1.1rem);margin-bottom:0.5rem">Each box holds something special...</p>
     <div class="gifts-grid reveal">
       <div class="gift-box" onclick="openGift(this, 0)">
         <div class="gift-ribbon"></div>
@@ -939,7 +979,7 @@ body {
     <p class="section-label reveal">For Your Eyes Only</p>
     <h2 class="section-title reveal">A Secret Letter 💌</h2>
     <div class="gold-divider reveal"></div>
-    <p class="reveal" style="font-family:'Cormorant Garamond',serif;font-style:italic;color:rgba(255,248,220,0.6);font-size:clamp(0.9rem,2.2vw,1.1rem)">Something written from the heart...</p>
+    <p class="reveal" style="font-family:'Cormorant Infant',serif;font-style:italic;color:rgba(255,248,220,0.6);font-size:clamp(0.9rem,2.2vw,1.1rem)">Something written from the heart...</p>
     <div class="envelope-wrap reveal" onclick="openLetter()">
       <div class="envelope" id="envelope">
         <div class="envelope-flap"></div>
@@ -983,7 +1023,7 @@ body {
     <h2 class="section-title reveal">Claim Your Throne</h2>
     <div class="gold-divider reveal"></div>
     <span class="crown-display reveal" id="crownEmoji">👑</span>
-    <p class="reveal" style="font-family:'Cormorant Garamond',serif;font-style:italic;color:rgba(255,248,220,0.6);font-size:clamp(1rem,2.5vw,1.2rem);margin-bottom:1.5rem">Every queen deserves her crown...</p>
+    <p class="reveal" style="font-family:'Cormorant Infant',serif;font-style:italic;color:rgba(255,248,220,0.6);font-size:clamp(1rem,2.5vw,1.2rem);margin-bottom:1.5rem">Every queen deserves her crown...</p>
     <button class="btn-crown reveal" id="crownBtn" onclick="claimCrown()">Claim Your Birthday Crown 👑</button>
     <p class="crown-proclamation" id="crownProclamation">✨ Official Queen of Today 👑 ✨</p>
   </div>
@@ -1033,12 +1073,12 @@ function spawnPetals() {
 }
 spawnPetals();
 
-document.querySelectorAll('.nav-dot').forEach(dot => {
-  dot.addEventListener('click', () => goToSection(parseInt(dot.dataset.section)));
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => goToSection(parseInt(item.dataset.section)));
 });
 
 function updateNav(idx) {
-  document.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+  document.querySelectorAll('.nav-item').forEach((d, i) => d.classList.toggle('active', i === idx));
 }
 
 function goToSection(idx) {
@@ -1219,6 +1259,32 @@ const sectionObs = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.5 });
 sectionEls.forEach(el => { if (el) sectionObs.observe(el); });
+
+// Parse all emojis to high-quality Twemoji (iOS-quality)
+function parseEmojis() {
+  if (typeof twemoji !== 'undefined') {
+    twemoji.parse(document.body, {
+      folder: 'svg',
+      ext: '.svg'
+    });
+  }
+}
+parseEmojis();
+
+// Re-parse after dynamic content changes
+const origGoToSection = goToSection;
+goToSection = function(idx) {
+  origGoToSection(idx);
+  setTimeout(parseEmojis, 100);
+};
+
+// Fallback: if Twemoji didn't load, try alternative CDN
+if (typeof twemoji === 'undefined') {
+  const s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js';
+  s.onload = function() { parseEmojis(); };
+  document.head.appendChild(s);
+}
 </script>
 </body>
 </html>
