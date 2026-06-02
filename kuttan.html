@@ -817,11 +817,102 @@ img.emoji {
   .gifts-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
   .reasons-grid { grid-template-columns: 1fr; }
 }
+
+/* --- NEW FEATURES CSS --- */
+.floating-ui {
+  position: fixed; z-index: 1000;
+  display: flex; gap: 0.8rem; align-items: center;
+  background: rgba(10, 10, 15, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(212,175,55,0.3);
+  padding: 0.5rem; border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+#theme-switcher { bottom: 1.2rem; left: 1.2rem; }
+.theme-btn {
+  width: 24px; height: 24px; border-radius: 50%;
+  cursor: pointer; border: 2px solid transparent;
+  transition: all 0.3s;
+}
+.theme-btn:hover { transform: scale(1.1); }
+.theme-btn.active { border-color: var(--gold); transform: scale(1.2); box-shadow: 0 0 10px var(--gold); }
+.theme-purple { background: #4A0E8F; }
+.theme-rose { background: #B76E79; }
+.theme-midnight { background: #0B162C; }
+.theme-emerald { background: #0F523A; }
+
+#audio-toggle { bottom: 1.2rem; right: 1.2rem; cursor: pointer; color: var(--gold); font-size: 1.2rem; width: 40px; height: 40px; justify-content: center; }
+#audio-toggle:hover { background: rgba(212,175,55,0.2); }
+
+#achievements {
+  top: 1.2rem; left: 1.2rem; flex-direction: column; gap: 0.5rem;
+  background: none; border: none; backdrop-filter: none; padding: 0; align-items: flex-start;
+}
+.badge {
+  display: flex; align-items: center; gap: 0.5rem;
+  background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(0,0,0,0.8));
+  border: 1px solid var(--gold); border-radius: 8px;
+  padding: 0.4rem 0.8rem; font-family: 'Cinzel', serif; font-size: 0.75rem;
+  color: var(--gold-light); opacity: 0; transform: translateX(-20px);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.badge.show { opacity: 1; transform: translateX(0); }
+.badge-icon { font-size: 1.2rem; }
+
+/* Page Transitions */
+.section {
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.section.fade-out { opacity: 0; transform: scale(0.95); pointer-events: none; }
+.section.hidden { display: none !important; }
+
+#particleCanvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+
+/* Cake CSS */
+.cake-container { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+.cake { position: relative; width: 160px; height: 140px; }
+.layer { position: absolute; border-radius: 10px; }
+.layer-bottom { bottom: 0; width: 160px; height: 50px; background: linear-gradient(to right, #4A0E8F, #6B21C8); }
+.layer-middle { bottom: 50px; left: 15px; width: 130px; height: 40px; background: linear-gradient(to right, #B76E79, #c78690); }
+.layer-top { bottom: 90px; left: 30px; width: 100px; height: 40px; background: linear-gradient(to right, #D4AF37, #F5D76E); }
+.icing { position: absolute; bottom: 125px; left: 25px; width: 110px; height: 20px; background: #fff; border-radius: 20px; }
+.drip { position: absolute; background: #fff; border-radius: 0 0 10px 10px; }
+.drip1 { bottom: 105px; left: 40px; width: 15px; height: 25px; }
+.drip2 { bottom: 100px; left: 75px; width: 15px; height: 35px; }
+.drip3 { bottom: 110px; left: 105px; width: 15px; height: 20px; }
+.candle { position: absolute; bottom: 130px; left: 75px; width: 10px; height: 30px; background: repeating-linear-gradient(45deg, #fff, #fff 5px, #ff6b6b 5px, #ff6b6b 10px); border-radius: 2px; }
+.flame { position: absolute; top: -18px; left: -2px; width: 14px; height: 20px; background: #F5D76E; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; box-shadow: 0 0 15px #F5D76E; animation: flicker 0.5s infinite alternate; }
+@keyframes flicker { 0% { transform: scale(1) rotate(-2deg); opacity: 0.9; } 100% { transform: scale(1.1) rotate(2deg); opacity: 1; } }
+
 </style>
 </head>
 <body>
 
 <div class="stars-bg"></div>
+<canvas id="particleCanvas"></canvas>
+
+<!-- Audio -->
+<audio id="bgMusic" loop preload="auto">
+  <!-- Public domain classical/soft music placeholder -->
+  <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-493.mp3" type="audio/mpeg">
+</audio>
+
+<!-- UI Components -->
+<div id="theme-switcher" class="floating-ui">
+  <div class="theme-btn theme-purple active" onclick="setTheme('purple')" title="Royal Purple"></div>
+  <div class="theme-btn theme-rose" onclick="setTheme('rose')" title="Rose Gold"></div>
+  <div class="theme-btn theme-midnight" onclick="setTheme('midnight')" title="Midnight Blue"></div>
+  <div class="theme-btn theme-emerald" onclick="setTheme('emerald')" title="Emerald Green"></div>
+</div>
+
+<div id="audio-toggle" class="floating-ui" onclick="toggleAudio()" title="Toggle Music">
+  🔇
+</div>
+
+<div id="achievements" class="floating-ui">
+  <!-- Badges will be injected here -->
+</div>
 
 <nav class="nav-sidebar" id="navSidebar">
   <div class="nav-item active" data-section="0"><span class="nav-item-label">Welcome</span><div class="nav-item-indicator"></div></div>
@@ -829,9 +920,10 @@ img.emoji {
   <div class="nav-item" data-section="2"><span class="nav-item-label">Trivia</span><div class="nav-item-indicator"></div></div>
   <div class="nav-item" data-section="3"><span class="nav-item-label">Reasons</span><div class="nav-item-indicator"></div></div>
   <div class="nav-item" data-section="4"><span class="nav-item-label">Gifts</span><div class="nav-item-indicator"></div></div>
-  <div class="nav-item" data-section="5"><span class="nav-item-label">Letter</span><div class="nav-item-indicator"></div></div>
-  <div class="nav-item" data-section="6"><span class="nav-item-label">Crown</span><div class="nav-item-indicator"></div></div>
-  <div class="nav-item" data-section="7"><span class="nav-item-label">Finale</span><div class="nav-item-indicator"></div></div>
+  <div class="nav-item" data-section="5"><span class="nav-item-label">Spin Wheel</span><div class="nav-item-indicator"></div></div>
+  <div class="nav-item" data-section="6"><span class="nav-item-label">Letter</span><div class="nav-item-indicator"></div></div>
+  <div class="nav-item" data-section="7"><span class="nav-item-label">Crown</span><div class="nav-item-indicator"></div></div>
+  <div class="nav-item" data-section="8"><span class="nav-item-label">Finale</span><div class="nav-item-indicator"></div></div>
 </nav>
 
 <!-- SECTION 1: WELCOME -->
@@ -973,6 +1065,46 @@ img.emoji {
   </div>
 </section>
 
+<!-- SECTION X: SPIN THE WHEEL -->
+<section class="section hidden" id="wheel-section">
+  <div class="content-wrap">
+    <p class="section-label reveal">Test Your Luck</p>
+    <h2 class="section-title reveal">Birthday Fortune 🎡</h2>
+    <div class="gold-divider reveal"></div>
+    <div class="wheel-container reveal" style="position:relative; width:300px; height:300px; margin:2rem auto; display:flex; justify-content:center; align-items:center;">
+      <div class="wheel-pointer" style="position:absolute; top:-15px; left:50%; transform:translateX(-50%); font-size:2rem; color:var(--gold); z-index:10; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));">▼</div>
+      <div class="wheel" id="spinWheel" style="width:100%; height:100%; border-radius:50%; border:5px solid var(--gold); position:relative; overflow:hidden; box-shadow:0 0 20px rgba(212,175,55,0.5); background:#222; transform:rotate(0deg);">
+        <!-- Using conic-gradient for segments -->
+        <div style="position:absolute; inset:0; background:conic-gradient(#4A0E8F 0deg 60deg, #B76E79 60deg 120deg, #0F523A 120deg 180deg, #D4AF37 180deg 240deg, #0B162C 240deg 300deg, #9B59E8 300deg 360deg);"></div>
+        
+        <!-- Labels -->
+        <div style="position:absolute; inset:0; transform:rotate(30deg); display:flex; justify-content:center;">
+          <span style="position:absolute; top:10px; font-family:'Cinzel',serif; font-weight:bold; color:white; text-shadow:0 1px 3px black;">Joy</span>
+        </div>
+        <div style="position:absolute; inset:0; transform:rotate(90deg); display:flex; justify-content:center;">
+          <span style="position:absolute; top:10px; font-family:'Cinzel',serif; font-weight:bold; color:white; text-shadow:0 1px 3px black;">Love</span>
+        </div>
+        <div style="position:absolute; inset:0; transform:rotate(150deg); display:flex; justify-content:center;">
+          <span style="position:absolute; top:10px; font-family:'Cinzel',serif; font-weight:bold; color:white; text-shadow:0 1px 3px black;">Success</span>
+        </div>
+        <div style="position:absolute; inset:0; transform:rotate(210deg); display:flex; justify-content:center;">
+          <span style="position:absolute; top:10px; font-family:'Cinzel',serif; font-weight:bold; color:black; text-shadow:0 1px 3px rgba(255,255,255,0.5);">Wealth</span>
+        </div>
+        <div style="position:absolute; inset:0; transform:rotate(270deg); display:flex; justify-content:center;">
+          <span style="position:absolute; top:10px; font-family:'Cinzel',serif; font-weight:bold; color:white; text-shadow:0 1px 3px black;">Peace</span>
+        </div>
+        <div style="position:absolute; inset:0; transform:rotate(330deg); display:flex; justify-content:center;">
+          <span style="position:absolute; top:10px; font-family:'Cinzel',serif; font-weight:bold; color:white; text-shadow:0 1px 3px black;">Health</span>
+        </div>
+        
+        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:40px; height:40px; background:var(--gold); border-radius:50%; border:2px solid #fff; box-shadow:0 0 10px rgba(0,0,0,0.5); z-index:2;"></div>
+      </div>
+    </div>
+    <button class="btn-start reveal" style="margin-top:2rem;" onclick="spinTheWheel()" id="spinBtn">Spin the Wheel</button>
+    <p id="wheelResult" class="crown-proclamation" style="margin-top:1rem;"></p>
+  </div>
+</section>
+
 <!-- SECTION 6: LETTER -->
 <section class="section hidden" id="letter-section">
   <div class="content-wrap">
@@ -1049,11 +1181,26 @@ img.emoji {
       <span class="sparkle">🌟</span>
       <span class="sparkle">✨</span>
     </div>
+    <div class="cake-container reveal" style="margin-top: 3rem; cursor: pointer;" onclick="blowCandles()" title="Tap to blow out candles!">
+      <div class="cake">
+        <div class="layer layer-bottom"></div>
+        <div class="layer layer-middle"></div>
+        <div class="layer layer-top"></div>
+        <div class="icing"></div>
+        <div class="drip drip1"></div>
+        <div class="drip drip2"></div>
+        <div class="drip drip3"></div>
+        <div class="candle">
+          <div class="flame" id="cakeFlame"></div>
+        </div>
+      </div>
+      <p id="cakeText" style="font-family:'Cormorant Infant',serif;color:var(--gold-light);margin-top:1rem;font-style:italic;">Make a wish and tap the cake!</p>
+    </div>
   </div>
 </section>
 
 <script>
-const sections = ['welcome','loading-section','quiz-section','reasons-section','gifts-section','letter-section','crown-section','finale-section'];
+const sections = ['welcome','loading-section','quiz-section','reasons-section','gifts-section','wheel-section','letter-section','crown-section','finale-section'];
 let currentSection = 0;
 let typewriterRunning = false;
 
@@ -1082,16 +1229,33 @@ function updateNav(idx) {
 }
 
 function goToSection(idx) {
-  document.getElementById(sections[currentSection]).classList.add('hidden');
-  currentSection = idx;
-  const el = document.getElementById(sections[currentSection]);
-  el.classList.remove('hidden');
-  updateNav(currentSection);
-  window.scrollTo(0, 0);
-  triggerReveal(el);
-  if (currentSection === 1) startTypewriter();
-  if (currentSection === 3) animateReasons();
-  if (currentSection === 7) launchFinale();
+  if (idx === currentSection) return;
+  const oldEl = document.getElementById(sections[currentSection]);
+  const newEl = document.getElementById(sections[idx]);
+  
+  oldEl.classList.add('fade-out');
+  playClickSound();
+  
+  setTimeout(() => {
+    oldEl.classList.add('hidden');
+    oldEl.classList.remove('fade-out');
+    
+    currentSection = idx;
+    newEl.classList.remove('hidden');
+    // Ensure new element starts with opacity 0 before transition
+    newEl.style.opacity = '0';
+    
+    updateNav(currentSection);
+    window.scrollTo(0, 0);
+    
+    setTimeout(() => {
+      newEl.style.opacity = '1';
+      triggerReveal(newEl);
+      if (currentSection === 1) { startTypewriter(); unlockBadge('Royal Entry', '👑'); }
+      if (currentSection === 3) animateReasons();
+      if (currentSection === 8) launchFinale();
+    }, 50);
+  }, 500); // Wait for fade out
 }
 
 function triggerReveal(container) {
@@ -1148,6 +1312,7 @@ function checkAnswer(btn, correct) {
     document.getElementById('quizResult').classList.add('show');
     btns.forEach(b => { if (b !== btn) b.classList.add('wrong'); });
     for (let i = 0; i < 8; i++) createMiniSparkle(btn);
+    unlockBadge('Trivia Master', '🧠');
     setTimeout(() => goToSection(3), 2200);
   } else {
     btn.classList.add('wrong');
@@ -1171,10 +1336,15 @@ function animateReasons() {
   cards.forEach((card, i) => setTimeout(() => card.classList.add('visible'), 200 + i * 120));
 }
 
+let giftsOpened = 0;
 function openGift(box) {
   if (box.classList.contains('opened')) return;
   box.classList.add('opened');
   for (let i = 0; i < 6; i++) createMiniSparkle(box);
+  giftsOpened++;
+  if (giftsOpened === 4) {
+    setTimeout(() => unlockBadge('Gift Opener', '🎁'), 1000);
+  }
 }
 
 function openLetter() {
@@ -1194,9 +1364,10 @@ function claimCrown() {
   crown.classList.add('crowned');
   btn.disabled = true; btn.style.opacity = '0.5';
   for (let i = 0; i < 20; i++) setTimeout(() => createSparkleParticle(), i * 80);
+  unlockBadge('Crowned Queen', '👑');
   setTimeout(() => {
     proc.classList.add('show');
-    setTimeout(() => goToSection(7), 2000);
+    setTimeout(() => goToSection(8), 2000);
   }, 800);
 }
 
@@ -1285,6 +1456,163 @@ if (typeof twemoji === 'undefined') {
   s.onload = function() { parseEmojis(); };
   document.head.appendChild(s);
 }
+
+// --- AUDIO & SOUND EFFECTS ---
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+let bgMusic = document.getElementById('bgMusic');
+let isAudioPlaying = false;
+
+function toggleAudio() {
+  const btn = document.getElementById('audio-toggle');
+  if (isAudioPlaying) {
+    bgMusic.pause();
+    btn.textContent = '🔇';
+  } else {
+    bgMusic.play().catch(e => console.log('Audio play failed:', e));
+    btn.textContent = '🔊';
+  }
+  isAudioPlaying = !isAudioPlaying;
+}
+
+function playClickSound() {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(1760, audioCtx.currentTime + 0.1);
+  gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.2);
+}
+
+// Attach click sound to buttons
+document.querySelectorAll('button').forEach(b => b.addEventListener('click', playClickSound));
+
+// --- THEME SWITCHER ---
+const themes = {
+  purple: { black: '#0A0A0F', nearBlack: '#14101E', rootBg1: '#0f1b3d', rootBg2: '#060a14' },
+  rose: { black: '#1a1012', nearBlack: '#261719', rootBg1: '#3d1c23', rootBg2: '#1a0b0e' },
+  midnight: { black: '#050a14', nearBlack: '#0a1428', rootBg1: '#0f224a', rootBg2: '#050c1f' },
+  emerald: { black: '#04120c', nearBlack: '#092419', rootBg1: '#114a31', rootBg2: '#051f14' }
+};
+
+function setTheme(themeName) {
+  document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelector('.theme-' + themeName).classList.add('active');
+  const t = themes[themeName];
+  document.documentElement.style.setProperty('--black', t.black);
+  document.documentElement.style.setProperty('--near-black', t.nearBlack);
+  // Update section background gradients slightly
+  document.querySelectorAll('.section').forEach(sec => {
+    sec.style.background = `radial-gradient(ellipse at 50% 50%, ${t.rootBg1} 0%, ${t.rootBg2} 70%)`;
+  });
+  playClickSound();
+}
+
+// --- ACHIEVEMENT BADGES ---
+const unlockedBadges = new Set();
+function unlockBadge(title, icon) {
+  if (unlockedBadges.has(title)) return;
+  unlockedBadges.add(title);
+  const container = document.getElementById('achievements');
+  const badge = document.createElement('div');
+  badge.className = 'badge';
+  badge.innerHTML = `<span class="badge-icon">${icon}</span><span>${title}</span>`;
+  container.appendChild(badge);
+  
+  // Play achievement sound
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+  osc.frequency.setValueAtTime(554.37, audioCtx.currentTime + 0.1);
+  osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.2);
+  gain.gain.setValueAtTime(0, audioCtx.currentTime);
+  gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.1);
+  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.5);
+
+  requestAnimationFrame(() => {
+    setTimeout(() => badge.classList.add('show'), 50);
+  });
+  // Auto hide after 4 seconds
+  setTimeout(() => {
+    badge.classList.remove('show');
+    setTimeout(() => badge.remove(), 500);
+  }, 4000);
+}
+
+// --- CANVAS PARTICLES ---
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let mouse = { x: null, y: null };
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+
+class Particle {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2;
+    this.speedX = Math.random() * 0.5 - 0.25;
+    this.speedY = Math.random() * 0.5 - 0.25;
+    this.opacity = Math.random() * 0.5 + 0.1;
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+    
+    // Mouse interaction
+    if (mouse.x) {
+      let dx = mouse.x - this.x;
+      let dy = mouse.y - this.y;
+      let dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 100) {
+        this.x -= dx * 0.01;
+        this.y -= dy * 0.01;
+        this.opacity = 1;
+      } else {
+        this.opacity = Math.random() * 0.5 + 0.1;
+      }
+    }
+  }
+  draw() {
+    ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+function initParticles() {
+  for (let i = 0; i < 100; i++) particles.push(new Particle());
+}
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animateParticles);
+}
+initParticles();
+animateParticles();
+
 </script>
 </body>
 </html>
