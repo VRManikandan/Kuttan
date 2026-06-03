@@ -32,6 +32,11 @@ body {
   color: var(--white);
   overflow-x: hidden;
   cursor: default;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "liga" 1, "kern" 1;
+  -webkit-text-size-adjust: 100%;
 }
 img.emoji {
   height: 1.15em; width: 1.15em;
@@ -124,10 +129,10 @@ img.emoji {
 }
 
 .hero-title {
-  font-family: 'Cinzel Decorative', 'Cinzel', serif;
-  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-family: 'Playfair Display', 'Cinzel', serif;
+  font-size: clamp(2.2rem, 6.5vw, 4.8rem);
   font-weight: 900;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.01em;
   line-height: 1.15;
   background: linear-gradient(135deg, #fceabb 0%, var(--gold) 40%, #fff8dc 55%, var(--gold-light) 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -187,6 +192,30 @@ img.emoji {
 .btn-start:hover::before { transform: translateX(100%); }
 .btn-start:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 8px 40px rgba(212,175,55,0.7); }
 .btn-start:active { transform: translateY(-1px) scale(1.01); }
+
+.btn-continue {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.75rem, 1.8vw, 0.9rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.8rem 2rem;
+  margin-top: 2.2rem;
+  background: transparent;
+  color: var(--gold-light);
+  border: 1px solid rgba(212,175,55,0.5);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.btn-continue:hover {
+  background: rgba(212,175,55,0.12);
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(212,175,55,0.3);
+}
+.btn-continue:active { transform: translateY(0) scale(0.99); }
 
 .petal {
   position: absolute; pointer-events: none;
@@ -680,10 +709,10 @@ img.emoji {
 #finale-section { background: radial-gradient(ellipse at 50% 30%, #111f40 0%, #060a14 70%); position: relative; }
 
 .finale-msg {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(1.4rem, 4vw, 2.5rem);
+  font-family: 'Playfair Display', 'Cinzel', serif;
+  font-size: clamp(1.5rem, 4.2vw, 2.7rem);
   font-weight: 900;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.01em;
   line-height: 1.2;
   background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, #fff8dc 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -810,12 +839,39 @@ img.emoji {
 ::-webkit-scrollbar-track { background: var(--black); }
 ::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.4); border-radius: 2px; }
 
-@media (max-width: 480px) {
-  .nav-sidebar { right: 0; }
-  .nav-item { padding: 0.4rem 0.5rem; }
+@media (max-width: 768px) {
+  /* Keep the section navigator clearly visible & tappable on phones.
+     Turn the thin vertical bars into round dots pinned to the right edge. */
+  .nav-sidebar {
+    right: 0.35rem;
+    gap: 0.15rem;
+    background: rgba(10,10,15,0.45);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(212,175,55,0.25);
+    border-radius: 50px;
+    padding: 0.45rem 0.3rem;
+  }
+  .nav-item { padding: 0.35rem 0.3rem; }
   .nav-item-label { display: none; }
+  .nav-item-indicator {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: rgba(212,175,55,0.4);
+  }
+  .nav-item.active .nav-item-indicator {
+    width: 11px; height: 11px;
+    background: var(--gold);
+    box-shadow: 0 0 10px rgba(212,175,55,0.8);
+  }
+}
+
+@media (max-width: 480px) {
   .gifts-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
   .reasons-grid { grid-template-columns: 1fr; }
+  /* Don't let the corner floating UI overlap the nav dots */
+  #achievements { top: 0.6rem; left: 0.6rem; }
+  #theme-switcher { bottom: 0.6rem; left: 0.6rem; }
+  #audio-toggle { bottom: 0.6rem; right: 0.6rem; }
 }
 
 /* --- NEW FEATURES CSS --- */
@@ -930,7 +986,7 @@ img.emoji {
 <section class="section" id="welcome">
   <div class="content-wrap">
     <span class="hero-ornament">👑</span>
-    <h1 class="hero-title">Happy Birthday<br>Our Queen 👑</h1>
+    <h1 class="hero-title">Happy Birthday<br>Our Queen 💚</h1>
     <div class="gold-divider"></div>
     <p class="hero-sub">"A little surprise made with love ❤️"</p>
     <div class="hero-sparkles">
@@ -1010,6 +1066,7 @@ img.emoji {
         <div class="reason-text">You dream big and work even bigger. Watching you pursue your goals with passion inspires everyone around you.</div>
       </div>
     </div>
+    <button class="btn-continue reveal" onclick="goToSection(4)">Continue →</button>
   </div>
 </section>
 
@@ -1062,6 +1119,7 @@ img.emoji {
         </div>
       </div>
     </div>
+    <button class="btn-continue reveal" onclick="goToSection(5)">Continue →</button>
   </div>
 </section>
 
@@ -1102,6 +1160,7 @@ img.emoji {
     </div>
     <button class="btn-start reveal" style="margin-top:2rem;" onclick="spinTheWheel()" id="spinBtn">Spin the Wheel</button>
     <p id="wheelResult" class="crown-proclamation" style="margin-top:1rem;"></p>
+    <button class="btn-continue reveal" onclick="goToSection(6)">Continue →</button>
   </div>
 </section>
 
@@ -1124,6 +1183,7 @@ img.emoji {
       </div>
       <p class="envelope-cta">✨ Tap to open your letter ✨</p>
     </div>
+    <button class="btn-continue reveal" onclick="goToSection(7)">Continue →</button>
   </div>
 </section>
 
@@ -1253,7 +1313,6 @@ function goToSection(idx) {
       triggerReveal(newEl);
       if (currentSection === 1) { startTypewriter(); unlockBadge('Royal Entry', '👑'); }
       if (currentSection === 3) animateReasons();
-      if (currentSection === 8) launchFinale();
     }, 50);
   }, 500); // Wait for fade out
 }
@@ -1287,6 +1346,7 @@ async function startTypewriter() {
       el.textContent += msg[c];
       await sleep(55);
     }
+    twemojiParse(el);
     bar.style.width = ((m + 1) / typeMessages.length * 100) + '%';
     await sleep(900);
     if (m < typeMessages.length - 1) {
@@ -1328,6 +1388,7 @@ function createMiniSparkle(ref) {
   s.style.cssText = `position:fixed;left:${rect.left + Math.random()*rect.width}px;top:${rect.top + Math.random()*rect.height}px;font-size:1.2rem;pointer-events:none;z-index:500;animation:sparkleRise 1.2s ease-out forwards;`;
   s.textContent = ['✨','⭐','💫','🌟'][Math.floor(Math.random()*4)];
   document.body.appendChild(s);
+  twemojiParse(s);
   setTimeout(() => s.remove(), 1300);
 }
 
@@ -1380,6 +1441,7 @@ function createSparkleParticle() {
   s.style.animationDuration = (1 + Math.random() * 0.8) + 's';
   s.textContent = ['✨','⭐','💫','🌟','💜','👑'][Math.floor(Math.random()*6)];
   container.appendChild(s);
+  twemojiParse(s);
   setTimeout(() => s.remove(), 2000);
 }
 
@@ -1412,7 +1474,83 @@ function spawnBalloon() {
   b.style.animationDuration = (6 + Math.random() * 5) + 's';
   b.style.animationDelay = '0s';
   document.body.appendChild(b);
+  twemojiParse(b);
   setTimeout(() => b.remove(), 12000);
+}
+
+// --- SPIN THE WHEEL ---
+// 6 segments of 60deg. Labels sit at segment centers: 30,90,150,210,270,330deg.
+const wheelPrizes = [
+  { label: 'Joy',     msg: '🎉 A year overflowing with pure JOY awaits you!' },
+  { label: 'Love',    msg: '💖 Endless LOVE is coming your way, Queen!' },
+  { label: 'Success', msg: '🌟 Unstoppable SUCCESS in everything you touch!' },
+  { label: 'Wealth',  msg: '💰 Abundance & WEALTH will find you this year!' },
+  { label: 'Peace',   msg: '🕊️ Deep PEACE and calm fill your days ahead.' },
+  { label: 'Health',  msg: '🍀 Glowing HEALTH and energy all year long!' }
+];
+let wheelRotation = 0;
+let wheelSpinning = false;
+
+function spinTheWheel() {
+  if (wheelSpinning) return;
+  const wheel = document.getElementById('spinWheel');
+  const btn = document.getElementById('spinBtn');
+  const result = document.getElementById('wheelResult');
+  if (!wheel) return;
+  wheelSpinning = true;
+  if (btn) { btn.disabled = true; btn.style.opacity = '0.5'; }
+  result.classList.remove('show');
+  result.textContent = '';
+
+  const idx = Math.floor(Math.random() * wheelPrizes.length);
+  const center = 30 + idx * 60;                 // angle of chosen prize's centre
+  const spins = 5 + Math.floor(Math.random() * 3); // 5–7 full turns
+  // rotate so the chosen prize lands under the top pointer (0deg)
+  wheelRotation += spins * 360 + ((360 - center) - (wheelRotation % 360) + 360) % 360;
+
+  wheel.style.transition = 'transform 4.5s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+  wheel.style.transform = 'rotate(' + wheelRotation + 'deg)';
+
+  setTimeout(() => {
+    const prize = wheelPrizes[idx];
+    result.textContent = prize.msg;
+    twemojiParse(result);
+    result.classList.add('show');
+    for (let i = 0; i < 14; i++) createMiniSparkle(result);
+    unlockBadge('Fortune Found', '🎡');
+    wheelSpinning = false;
+    if (btn) {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.textContent = 'Spin Again';
+    }
+    // a little celebratory burst of confetti
+    for (let i = 0; i < 40; i++) setTimeout(() => spawnConfetti(), Math.random() * 1200);
+  }, 4600);
+}
+
+// --- BLOW OUT THE CANDLES ---
+let candlesBlown = false;
+function blowCandles() {
+  const flame = document.getElementById('cakeFlame');
+  const text = document.getElementById('cakeText');
+  if (candlesBlown) {
+    // allow re-lighting for fun
+    if (flame) { flame.style.display = 'block'; }
+    if (text) text.textContent = 'Make a wish and tap the cake!';
+    candlesBlown = false;
+    return;
+  }
+  candlesBlown = true;
+  if (flame) {
+    flame.style.transition = 'opacity 0.3s ease';
+    flame.style.opacity = '0';
+    setTimeout(() => { flame.style.display = 'none'; }, 300);
+  }
+  if (text) { text.textContent = '✨ Your wish has been made! May it come true 🎂💜'; twemojiParse(text); }
+  unlockBadge('Wish Maker', '🎂');
+  // Same celebratory burst as the finale section
+  launchFinale();
 }
 
 const revealObs = new IntersectionObserver((entries) => {
@@ -1431,15 +1569,43 @@ const sectionObs = new IntersectionObserver((entries) => {
 }, { threshold: 0.5 });
 sectionEls.forEach(el => { if (el) sectionObs.observe(el); });
 
-// Parse all emojis to high-quality Twemoji (iOS-quality)
-function parseEmojis() {
-  if (typeof twemoji !== 'undefined') {
-    twemoji.parse(document.body, {
-      folder: 'svg',
-      ext: '.svg'
-    });
+// Render emojis as true iOS/Apple-style emoji art (high quality, not flat Twitter art).
+const TWEMOJI_OPTS = {
+  // Use twemoji only to detect/normalize the emoji codepoints, but render
+  // Apple (iOS) emoji images so they look exactly like an iPhone.
+  callback: function (icon, options) {
+    // `icon` is the unified codepoint sequence e.g. "1f600" or "1f1ee-1f1f3"
+    return 'https://cdn.jsdelivr.net/gh/iamcal/emoji-data@master/img-apple-64/' + icon + '.png';
   }
+};
+
+const APPLE_BASE = 'https://cdn.jsdelivr.net/gh/iamcal/emoji-data@master/img-apple-64/';
+function bindEmojiFallback(img) {
+  if (img.dataset.fallbackBound) return;
+  img.dataset.fallbackBound = '1';
+  img.addEventListener('error', function onErr() {
+    const code = (img.src.split('/').pop() || '').replace('.png', '').replace('.svg', '');
+    // Step 1: Twemoji strips the FE0F variation selector, but Apple's set keeps it
+    // (e.g. ❤️ is "2764-fe0f.png", not "2764.png"). Try the -fe0f variant first.
+    if (img.src.indexOf(APPLE_BASE) === 0 && code.indexOf('-fe0f') === -1) {
+      img.src = APPLE_BASE + code + '-fe0f.png';
+      return;
+    }
+    // Step 2: still missing → fall back to the Twitter SVG for that one.
+    img.removeEventListener('error', onErr);
+    img.src = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/' + code.replace('-fe0f', '') + '.svg';
+  });
 }
+
+// Convert emojis inside any node (works for dynamically-created content too).
+function twemojiParse(node) {
+  if (typeof twemoji === 'undefined' || !node) return;
+  twemoji.parse(node, TWEMOJI_OPTS);
+  const scope = (node.querySelectorAll ? node : document);
+  scope.querySelectorAll('img.emoji').forEach(bindEmojiFallback);
+}
+
+function parseEmojis() { twemojiParse(document.body); }
 parseEmojis();
 
 // Re-parse after dynamic content changes
@@ -1462,15 +1628,82 @@ const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 let bgMusic = document.getElementById('bgMusic');
 let isAudioPlaying = false;
 
+// --- HAPPY BIRTHDAY MELODY (synthesized so it ALWAYS plays, no external file) ---
+const HB_NOTES = { C4:261.63, D4:293.66, E4:329.63, F4:349.23, G4:392.00, A4:440.00, B4:493.88, C5:523.25, D5:587.33, E5:659.25, F5:698.46, G5:783.99 };
+const HB_MELODY = [
+  ['G4',0.75],['G4',0.25],['A4',1],['G4',1],['C5',1],['B4',2],
+  ['G4',0.75],['G4',0.25],['A4',1],['G4',1],['D5',1],['C5',2],
+  ['G4',0.75],['G4',0.25],['G5',1],['E5',1],['C5',1],['B4',1],['A4',1],
+  ['F5',0.75],['F5',0.25],['E5',1],['C5',1],['D5',1],['C5',2]
+];
+const HB_BEAT = 0.5; // seconds per beat (gentle, song-like pace)
+let hbActiveNodes = [];
+let hbLoopTimer = null;
+
+// One soft "music-box" note: warm sine fundamental + gentle octave shimmer,
+// with a smooth attack and a long ringing release so it sounds like a melody.
+function hbPlayNote(freq, t, dur) {
+  const ring = Math.max(dur * 1.5, 0.6); // let each note ring past its beat
+  const master = audioCtx.createGain();
+  master.gain.setValueAtTime(0, t);
+  master.gain.linearRampToValueAtTime(0.2, t + 0.03);
+  master.gain.exponentialRampToValueAtTime(0.0006, t + ring);
+  master.connect(audioCtx.destination);
+
+  const o1 = audioCtx.createOscillator();
+  o1.type = 'sine';
+  o1.frequency.setValueAtTime(freq, t);
+  const g1 = audioCtx.createGain();
+  g1.gain.setValueAtTime(1, t);
+  o1.connect(g1); g1.connect(master);
+
+  const o2 = audioCtx.createOscillator();
+  o2.type = 'triangle';
+  o2.frequency.setValueAtTime(freq * 2, t);
+  const g2 = audioCtx.createGain();
+  g2.gain.setValueAtTime(0.22, t);
+  o2.connect(g2); g2.connect(master);
+
+  const stopAt = t + ring + 0.05;
+  o1.start(t); o2.start(t);
+  o1.stop(stopAt); o2.stop(stopAt);
+  hbActiveNodes.push(o1, o2, g1, g2, master);
+}
+
+function playHappyBirthdayOnce() {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  let t = audioCtx.currentTime + 0.05;
+  HB_MELODY.forEach(([note, beats]) => {
+    const dur = beats * HB_BEAT;
+    hbPlayNote(HB_NOTES[note], t, dur);
+    t += dur; // notes overlap into their release tail → smooth, legato melody
+  });
+  return (t - audioCtx.currentTime); // total duration of this pass
+}
+
+function startHappyBirthday() {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const passDur = playHappyBirthdayOnce();
+  // loop the song with a short pause between repeats
+  hbLoopTimer = setTimeout(startHappyBirthday, (passDur + 1.2) * 1000);
+}
+
+function stopHappyBirthday() {
+  if (hbLoopTimer) { clearTimeout(hbLoopTimer); hbLoopTimer = null; }
+  hbActiveNodes.forEach(n => { try { n.stop ? n.stop() : n.disconnect(); } catch (e) {} });
+  hbActiveNodes = [];
+}
+
 function toggleAudio() {
   const btn = document.getElementById('audio-toggle');
   if (isAudioPlaying) {
-    bgMusic.pause();
+    stopHappyBirthday();
     btn.textContent = '🔇';
   } else {
-    bgMusic.play().catch(e => console.log('Audio play failed:', e));
+    startHappyBirthday();
     btn.textContent = '🔊';
   }
+  twemojiParse(btn);
   isAudioPlaying = !isAudioPlaying;
 }
 
@@ -1523,6 +1756,7 @@ function unlockBadge(title, icon) {
   badge.className = 'badge';
   badge.innerHTML = `<span class="badge-icon">${icon}</span><span>${title}</span>`;
   container.appendChild(badge);
+  twemojiParse(badge);
   
   // Play achievement sound
   if (audioCtx.state === 'suspended') audioCtx.resume();
