@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Birthday Our Queen 👑</title>
+<title>Happy Birthday M. Poornasree 👑</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Infant:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&family=Great+Vibes&family=Tenor+Sans&family=Cinzel:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
@@ -97,11 +97,32 @@ img.emoji {
 }
 @keyframes twinkle { 0% { opacity: 0.6; } 100% { opacity: 1; } }
 
+/* Slow drifting aurora of colour behind everything for living depth */
+body::before {
+  content: '';
+  position: fixed; inset: -10%; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 25% 20%, rgba(155,89,232,0.12) 0%, transparent 45%),
+    radial-gradient(circle at 75% 75%, rgba(212,175,55,0.10) 0%, transparent 45%),
+    radial-gradient(circle at 60% 30%, rgba(107,33,200,0.10) 0%, transparent 50%);
+  filter: blur(20px);
+  animation: auroraDrift 18s ease-in-out infinite alternate;
+}
+@keyframes auroraDrift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(2%, -3%, 0) scale(1.08); }
+  100% { transform: translate3d(-2%, 2%, 0) scale(1.12); }
+}
+
 .gold-divider {
   width: 120px; height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  background: linear-gradient(90deg, transparent, var(--gold-light), var(--gold), var(--gold-light), transparent);
+  background-size: 200% 100%;
   margin: 1.5rem auto;
+  box-shadow: 0 0 10px rgba(212,175,55,0.45);
+  animation: dividerShimmer 3.5s linear infinite;
 }
+@keyframes dividerShimmer { to { background-position: 200% 0; } }
 .gold-divider-wide {
   width: 200px; height: 1px;
   background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
@@ -134,13 +155,15 @@ img.emoji {
   font-weight: 900;
   letter-spacing: 0.01em;
   line-height: 1.15;
-  background: linear-gradient(135deg, #fceabb 0%, var(--gold) 40%, #fff8dc 55%, var(--gold-light) 100%);
+  background: linear-gradient(135deg, #fceabb 0%, var(--gold) 35%, #fff8dc 50%, var(--gold-light) 65%, var(--gold) 100%);
+  background-size: 220% auto;
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 0.8rem;
-  animation: fadeSlideUp 1s ease-out 0.3s both;
+  animation: fadeSlideUp 1s ease-out 0.3s both, goldShimmer 6s linear infinite;
   text-shadow: none;
 }
+@keyframes goldShimmer { to { background-position: 220% center; } }
 
 .hero-sub {
   font-family: 'Great Vibes', cursive;
@@ -310,10 +333,12 @@ img.emoji {
   font-family: 'Cinzel', serif;
   font-size: clamp(1.6rem, 5vw, 3rem);
   font-weight: 700;
-  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  background: linear-gradient(135deg, var(--gold-light), #fff8dc, var(--gold), var(--gold-light));
+  background-size: 220% auto;
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 0.5rem;
+  animation: goldShimmer 6s linear infinite;
 }
 
 .quiz-question {
@@ -684,9 +709,11 @@ img.emoji {
   font-size: clamp(1rem, 3vw, 1.6rem);
   font-weight: 700;
   letter-spacing: 0.1em;
-  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  background: linear-gradient(135deg, var(--gold-light), #fff8dc, var(--gold), var(--gold-light));
+  background-size: 220% auto;
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: goldShimmer 6s linear infinite;
   opacity: 0;
   transform: translateY(20px);
   transition: all 0.6s;
@@ -714,10 +741,12 @@ img.emoji {
   font-weight: 900;
   letter-spacing: 0.01em;
   line-height: 1.2;
-  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, #fff8dc 100%);
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 35%, #fff8dc 50%, var(--gold-light) 70%, var(--gold) 100%);
+  background-size: 220% auto;
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 1.5rem;
+  animation: goldShimmer 6s linear infinite;
 }
 
 .finale-sub {
@@ -832,8 +861,8 @@ img.emoji {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.reveal { opacity: 0; transform: translateY(25px); transition: opacity 0.7s ease, transform 0.7s ease; }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal { opacity: 0; transform: translateY(25px) scale(0.985); filter: blur(5px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), filter 0.8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--black); }
@@ -918,9 +947,9 @@ img.emoji {
 
 /* Page Transitions */
 .section {
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transition: opacity 0.8s ease, transform 0.8s ease, filter 0.8s ease;
 }
-.section.fade-out { opacity: 0; transform: scale(0.95); pointer-events: none; }
+.section.fade-out { opacity: 0; transform: scale(0.96) translateY(-10px); filter: blur(8px); pointer-events: none; }
 .section.hidden { display: none !important; }
 
 #particleCanvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
@@ -986,7 +1015,7 @@ img.emoji {
 <section class="section" id="welcome">
   <div class="content-wrap">
     <span class="hero-ornament">👑</span>
-    <h1 class="hero-title">Happy Birthday<br>Our Queen 💚</h1>
+    <h1 class="hero-title">Happy Birthday<br>Poornasree 💚</h1>
     <div class="gold-divider"></div>
     <p class="hero-sub">"A little surprise made with love ❤️"</p>
     <div class="hero-sparkles">
@@ -1020,11 +1049,11 @@ img.emoji {
     <p class="quiz-question reveal">"Who owns today?"</p>
     <div class="quiz-options reveal" id="quizOptions">
       <button class="quiz-btn" onclick="checkAnswer(this, false)">The Stars ⭐</button>
-      <button class="quiz-btn" onclick="checkAnswer(this, true)">Our Queen 👑</button>
+      <button class="quiz-btn" onclick="checkAnswer(this, true)">M. Poornasree 👑</button>
       <button class="quiz-btn" onclick="checkAnswer(this, false)">The Moon 🌙</button>
       <button class="quiz-btn" onclick="checkAnswer(this, false)">The Universe 🌌</button>
     </div>
-    <p class="quiz-result" id="quizResult">✨ Absolutely! Today belongs to our incredible Queen! 👑</p>
+    <p class="quiz-result" id="quizResult">✨ Absolutely! Today belongs to our incredible Poornasree! 👑</p>
   </div>
 </section>
 
@@ -1032,7 +1061,7 @@ img.emoji {
 <section class="section hidden" id="reasons-section">
   <div class="content-wrap">
     <p class="section-label reveal">With All Our Hearts</p>
-    <h2 class="section-title reveal">Why Our Queen Is Amazing</h2>
+    <h2 class="section-title reveal">Why Poornasree Is Amazing</h2>
     <div class="gold-divider reveal"></div>
     <div class="reasons-grid" id="reasonsGrid">
       <div class="reason-card">
@@ -1193,14 +1222,14 @@ img.emoji {
     <button class="letter-close" onclick="closeLetterBtn()">✕</button>
     <div class="gold-divider-wide" style="margin-top:0;margin-bottom:1.5rem"></div>
     <p class="letter-header">A Birthday Letter · With Love</p>
-    <p class="letter-salutation">My Dearest Queen,</p>
+    <p class="letter-salutation">My Dearest Poornasree,</p>
     <div class="letter-body">
       <p>On this beautiful day, we want you to know just how extraordinary you are. Not because it's your birthday — though that is absolutely worth celebrating — but because of who you are, every single day.</p>
       <p>You carry a light inside you that you may not always see yourself, but those who love you see it clearly. In your laughter, in your strength, in the gentle way you love the people around you — there is something truly rare.</p>
       <p>You have faced storms and come out shining. You have loved deeply, worked hard, and never stopped being beautifully, unapologetically you. That takes courage, and it is something we admire more than words can capture.</p>
       <p>On this day, we hope you allow yourself to be celebrated. To be spoiled. To feel as loved as you make everyone else feel. Because you deserve every bit of it.</p>
       <p>Here is to you — your dreams, your joy, your journey. May this new year of your life be your most beautiful chapter yet. May you laugh more, worry less, and always know that you are deeply, endlessly loved.</p>
-      <p>Happy Birthday, our Queen. Today and always — this crown is yours. 👑</p>
+      <p>Happy Birthday, Poornasree. Today and always — this crown is yours. 👑</p>
     </div>
     <div class="gold-divider-wide"></div>
     <p class="letter-sign">With all our love &amp; admiration,<br><em>Everyone who adores you ❤️</em></p>
@@ -1217,7 +1246,7 @@ img.emoji {
     <span class="crown-display reveal" id="crownEmoji">👑</span>
     <p class="reveal" style="font-family:'Cormorant Infant',serif;font-style:italic;color:rgba(255,248,220,0.6);font-size:clamp(1rem,2.5vw,1.2rem);margin-bottom:1.5rem">Every queen deserves her crown...</p>
     <button class="btn-crown reveal" id="crownBtn" onclick="claimCrown()">Claim Your Birthday Crown 👑</button>
-    <p class="crown-proclamation" id="crownProclamation">✨ Official Queen of Today 👑 ✨</p>
+    <p class="crown-proclamation" id="crownProclamation">✨ M. Poornasree — Queen of Today 👑 ✨</p>
   </div>
 </section>
 
@@ -1226,7 +1255,7 @@ img.emoji {
   <div class="finale-glow"></div>
   <div class="content-wrap" style="z-index:3">
     <span style="font-size:clamp(3rem,8vw,5rem);animation:float 2.5s ease-in-out infinite;display:block;filter:drop-shadow(0 0 20px rgba(212,175,55,0.8));margin-bottom:1rem">👑</span>
-    <h2 class="finale-msg reveal">Happy Birthday<br>Our Queen 👑</h2>
+    <h2 class="finale-msg reveal">Happy Birthday<br>Poornasree 👑</h2>
     <div class="gold-divider reveal"></div>
     <p class="finale-sub reveal">
       May your days be filled with happiness,<br>
@@ -1294,8 +1323,7 @@ function goToSection(idx) {
   const newEl = document.getElementById(sections[idx]);
   
   oldEl.classList.add('fade-out');
-  playClickSound();
-  
+
   setTimeout(() => {
     oldEl.classList.add('hidden');
     oldEl.classList.remove('fade-out');
@@ -1570,16 +1598,27 @@ const sectionObs = new IntersectionObserver((entries) => {
 sectionEls.forEach(el => { if (el) sectionObs.observe(el); });
 
 // Render emojis as true iOS/Apple-style emoji art (high quality, not flat Twitter art).
+const APPLE_BASE = 'https://cdn.jsdelivr.net/gh/iamcal/emoji-data@master/img-apple-64/';
+// Twemoji strips the FE0F variation selector, but Apple's set keeps it for these
+// symbol emojis (e.g. ❤️ is stored as "2764-fe0f.png", not "2764.png").
+const APPLE_FE0F = new Set([
+  '2764','2763','2665','2666','2660','2663','2611','2614','2615','261d',
+  '263a','2660','2693','26a0','2702','2708','2709','270c','270f','2712',
+  '2716','2728','2733','2734','2744','2747','2757','2764','2795','2796',
+  '00a9','00ae','203c','2049','2122','2139','2194','2195','2196','2197',
+  '2198','2199','21a9','21aa','231a','231b','23e9','2600','2601','2602',
+  '2603','2604','26d4','2b50','2b55','3030','303d','3297','3299'
+]);
 const TWEMOJI_OPTS = {
   // Use twemoji only to detect/normalize the emoji codepoints, but render
   // Apple (iOS) emoji images so they look exactly like an iPhone.
   callback: function (icon, options) {
     // `icon` is the unified codepoint sequence e.g. "1f600" or "1f1ee-1f1f3"
-    return 'https://cdn.jsdelivr.net/gh/iamcal/emoji-data@master/img-apple-64/' + icon + '.png';
+    var name = (icon.indexOf('-') === -1 && APPLE_FE0F.has(icon)) ? icon + '-fe0f' : icon;
+    return APPLE_BASE + name + '.png';
   }
 };
 
-const APPLE_BASE = 'https://cdn.jsdelivr.net/gh/iamcal/emoji-data@master/img-apple-64/';
 function bindEmojiFallback(img) {
   if (img.dataset.fallbackBound) return;
   img.dataset.fallbackBound = '1';
@@ -1722,8 +1761,7 @@ function playClickSound() {
   osc.stop(audioCtx.currentTime + 0.2);
 }
 
-// Attach click sound to buttons
-document.querySelectorAll('button').forEach(b => b.addEventListener('click', playClickSound));
+// (Click/tap sound removed per request)
 
 // --- THEME SWITCHER ---
 const themes = {
@@ -1743,7 +1781,6 @@ function setTheme(themeName) {
   document.querySelectorAll('.section').forEach(sec => {
     sec.style.background = `radial-gradient(ellipse at 50% 50%, ${t.rootBg1} 0%, ${t.rootBg2} 70%)`;
   });
-  playClickSound();
 }
 
 // --- ACHIEVEMENT BADGES ---
