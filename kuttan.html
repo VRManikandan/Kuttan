@@ -970,6 +970,86 @@ body::before {
 .flame { position: absolute; top: -18px; left: -2px; width: 14px; height: 20px; background: #F5D76E; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; box-shadow: 0 0 15px #F5D76E; animation: flicker 0.5s infinite alternate; }
 @keyframes flicker { 0% { transform: scale(1) rotate(-2deg); opacity: 0.9; } 100% { transform: scale(1.1) rotate(2deg); opacity: 1; } }
 
+/* --- SITE CREDIT --- */
+.site-credit {
+  margin-top: 3rem;
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: clamp(0.7rem, 1.8vw, 0.85rem);
+  letter-spacing: 0.12em;
+  color: rgba(255,248,220,0.45);
+}
+.site-credit span {
+  font-family: 'Great Vibes', cursive;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  font-size: 1.7em;
+  background: linear-gradient(135deg, #ff5a5a, #e01e1e, #ff7b7b, #e01e1e);
+  background-size: 220% auto;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 10px rgba(224,30,30,0.55));
+  animation: goldShimmer 6s linear infinite;
+}
+
+/* --- 💖 TAP-ANYWHERE HEARTS --- */
+.tap-heart {
+  position: fixed; z-index: 997; pointer-events: none;
+  will-change: transform, opacity;
+  animation: tapHeartRise 1.4s ease-out forwards;
+}
+@keyframes tapHeartRise {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+  15%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, calc(-50% - 150px)) scale(1.15) rotate(var(--r, 0deg)); }
+}
+
+/* --- 🌠 SHOOTING STAR + WISH --- */
+.shooting-star {
+  position: fixed; z-index: 996; pointer-events: none;
+  width: 3px; height: 3px; border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px 2px rgba(255,255,255,0.9), 0 0 22px 5px rgba(212,175,55,0.6);
+  animation: shootStar 1.2s ease-in forwards;
+}
+.shooting-star::after {
+  content: ''; position: absolute; top: 50%; right: 0;
+  width: 90px; height: 2px; transform: translateY(-50%);
+  background: linear-gradient(90deg, rgba(255,255,255,0.85), rgba(212,175,55,0.4), transparent);
+  border-radius: 2px;
+}
+@keyframes shootStar {
+  0%   { opacity: 0; transform: translate(0, 0) rotate(20deg) scale(0.6); }
+  12%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-360px, 210px) rotate(20deg) scale(1); }
+}
+.wish-bubble {
+  position: fixed; z-index: 998; pointer-events: none;
+  transform: translate(-50%, -50%);
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(1.1rem, 3vw, 1.7rem);
+  color: var(--gold-light);
+  text-shadow: 0 2px 12px rgba(0,0,0,0.6), 0 0 18px rgba(212,175,55,0.5);
+  white-space: nowrap;
+  animation: wishFloat 2.6s ease-out forwards;
+}
+@keyframes wishFloat {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+  15%  { opacity: 1; transform: translate(-50%, -62%) scale(1); }
+  80%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -120%) scale(1.05); }
+}
+
+/* --- 🪄 PARALLAX 3D TILT --- */
+.section { perspective: 1200px; }
+.content-wrap {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease-out;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .content-wrap { transition: none; transform: none !important; }
+}
+
 </style>
 </head>
 <body>
@@ -1283,8 +1363,9 @@ body::before {
           <div class="flame" id="cakeFlame"></div>
         </div>
       </div>
-      <p id="cakeText" style="font-family:'Cormorant Infant',serif;color:var(--gold-light);margin-top:1rem;font-style:italic;">Make a wish and tap the cake!</p>
+      <p id="cakeText" style="font-family:'Cormorant Infant',serif;color:var(--gold-light);margin-top:1rem;font-style:italic;">Make a wish — blow into your mic 🎤 or tap the cake!</p>
     </div>
+    <p class="site-credit reveal">Website crafted with ❤️ by <span>V. R. Manikandan</span></p>
   </div>
 </section>
 
@@ -1341,6 +1422,7 @@ function goToSection(idx) {
       triggerReveal(newEl);
       if (currentSection === 1) { startTypewriter(); unlockBadge('Royal Entry', '👑'); }
       if (currentSection === 3) animateReasons();
+      if (currentSection === 8) enableBlowDetection();
     }, 50);
   }, 500); // Wait for fade out
 }
@@ -1565,7 +1647,7 @@ function blowCandles() {
   if (candlesBlown) {
     // allow re-lighting for fun
     if (flame) { flame.style.display = 'block'; }
-    if (text) text.textContent = 'Make a wish and tap the cake!';
+    if (text) text.textContent = 'Make a wish — blow into your mic 🎤 or tap the cake!';
     candlesBlown = false;
     return;
   }
@@ -1883,6 +1965,130 @@ function animateParticles() {
 }
 initParticles();
 animateParticles();
+
+// ============================================================
+//  ✨ EXTRA MAGIC: tap hearts · shooting-star wishes · parallax · mic-blow
+// ============================================================
+
+// --- 💖 TAP-ANYWHERE HEARTS ---
+const TAP_EMOJIS = ['💖','💕','💗','✨','🌸','💜','⭐','🥳','🎉'];
+function spawnTapHeart(x, y) {
+  const h = document.createElement('div');
+  h.className = 'tap-heart';
+  h.textContent = TAP_EMOJIS[Math.floor(Math.random() * TAP_EMOJIS.length)];
+  h.style.left = x + 'px';
+  h.style.top = y + 'px';
+  h.style.fontSize = (1.2 + Math.random() * 1.0) + 'rem';
+  h.style.setProperty('--r', (Math.random() * 70 - 35) + 'deg');
+  document.body.appendChild(h);
+  twemojiParse(h);
+  setTimeout(() => h.remove(), 1500);
+}
+
+// --- 🌠 SHOOTING STAR + WISH ---
+const WISHES = [
+  'Health & happiness ✨', 'All your dreams come true 🌟', 'Endless love 💖',
+  'Success in everything 🌈', 'Joy that never fades 😊', 'A year as bright as you 👑',
+  'Laughter every single day 😄', 'Peace in your heart 🕊️'
+];
+function spawnShootingStar(startX, startY) {
+  const s = document.createElement('div');
+  s.className = 'shooting-star';
+  const x = (startX != null) ? startX : window.innerWidth * (0.4 + Math.random() * 0.55);
+  const y = (startY != null) ? startY : window.innerHeight * (0.05 + Math.random() * 0.3);
+  s.style.left = x + 'px';
+  s.style.top = y + 'px';
+  document.body.appendChild(s);
+  setTimeout(() => s.remove(), 1300);
+}
+function spawnWish(x, y) {
+  const w = document.createElement('div');
+  w.className = 'wish-bubble';
+  w.textContent = WISHES[Math.floor(Math.random() * WISHES.length)];
+  w.style.left = Math.min(Math.max(x, 90), window.innerWidth - 90) + 'px';
+  w.style.top = Math.max(y, 60) + 'px';
+  document.body.appendChild(w);
+  twemojiParse(w);
+  setTimeout(() => w.remove(), 2600);
+}
+// Ambient shooting stars keep the night sky alive
+function ambientStars() {
+  if (!document.hidden) spawnShootingStar();
+  setTimeout(ambientStars, 5000 + Math.random() * 7000);
+}
+setTimeout(ambientStars, 3000);
+
+// Single tap handler: hearts everywhere; on the "sky" sections (welcome/finale) also a wishing star
+let lastWishTime = 0;
+document.addEventListener('click', (e) => {
+  spawnTapHeart(e.clientX, e.clientY);
+  if (currentSection === 0 || currentSection === 8) {
+    spawnShootingStar(e.clientX, e.clientY);
+    const now = Date.now();
+    if (now - lastWishTime > 1100) {
+      lastWishTime = now;
+      spawnWish(e.clientX, e.clientY - 28);
+    }
+  }
+}, { passive: true });
+
+// --- 🪄 PARALLAX 3D TILT (mouse on desktop, device tilt on mobile) ---
+let parallaxRAF = null;
+function applyParallax(px, py) {
+  px = Math.max(-1, Math.min(1, px));
+  py = Math.max(-1, Math.min(1, py));
+  const cw = document.querySelector('.section:not(.hidden) .content-wrap');
+  if (cw) {
+    cw.style.transform =
+      'rotateX(' + (-py * 3.2).toFixed(2) + 'deg) rotateY(' + (px * 3.2).toFixed(2) + 'deg) ' +
+      'translate3d(' + (px * 10).toFixed(1) + 'px, ' + (py * 10).toFixed(1) + 'px, 0)';
+  }
+}
+window.addEventListener('mousemove', (e) => {
+  const px = (e.clientX / window.innerWidth - 0.5) * 2;
+  const py = (e.clientY / window.innerHeight - 0.5) * 2;
+  if (parallaxRAF) cancelAnimationFrame(parallaxRAF);
+  parallaxRAF = requestAnimationFrame(() => applyParallax(px, py));
+});
+window.addEventListener('deviceorientation', (e) => {
+  if (e.gamma == null || e.beta == null) return;
+  applyParallax(e.gamma / 30, (e.beta - 45) / 30);
+}, true);
+
+// --- 🎤 BLOW OUT THE CANDLE WITH YOUR REAL BREATH ---
+let micStarted = false;
+async function enableBlowDetection() {
+  if (micStarted) return;
+  micStarted = true;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return; // tap still works
+  try {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const src = audioCtx.createMediaStreamSource(stream);
+    const analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 512;
+    src.connect(analyser);
+    const data = new Uint8Array(analyser.frequencyBinCount);
+    let blowing = 0;
+    function check() {
+      analyser.getByteFrequencyData(data);
+      // A "blow" is sustained broadband energy in the low–mid bins
+      let sum = 0; const lo = 2, n = 28;
+      for (let i = lo; i < lo + n; i++) sum += data[i];
+      const avg = sum / n;
+      if (avg > 95) blowing++; else blowing = Math.max(0, blowing - 1);
+      if (blowing > 4 && !candlesBlown) blowCandles();
+      if (!candlesBlown) {
+        requestAnimationFrame(check);
+      } else {
+        try { stream.getTracks().forEach(t => t.stop()); } catch (err) {}
+      }
+    }
+    check();
+  } catch (err) {
+    micStarted = false; // permission denied — tapping the cake still works
+  }
+}
 
 </script>
 </body>
